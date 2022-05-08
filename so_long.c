@@ -1,97 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/08 15:18:46 by fstitou           #+#    #+#             */
+/*   Updated: 2022/05/08 21:26:08 by fstitou          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "so_long.h"
-#include "get_next_line.h"
+#include <mlx.h>
+
+typedef struct {
+	void* mlx_ptr;
+	void* mlx_win;
+	char **map;
+}vars;
 
 void	ft_exit(char *str)
 {
 	printf("%s\n",str);
 	exit(0);
-}
-char	**copy_map(int fd)
-{
-	char	**map;
-	char	*str;
-	int		i;
-	int		j;
-	
-	map = malloc(sizeof(char *) * 400);
-	str = get_next_line(fd);
-	i = 0;
-	j = 1;
-	while(str[i])
-	{
-		if (str[i] == '\n')
-		{
-			map[j] = malloc(sizeof(char) * (i + 1));
-			map[j] = strncpy(map[j], str, i);
-			map[j][i] = '\0';
-			j++;
-			i = 0;
-			str = get_next_line(fd);
-		}
-		i++;
-	}
-	if (str[i] == '\0')
-	{
-		map[j] = malloc(sizeof(char) * (i + 1));
-		map[j] = strncpy(map[j], str, i);
-		map[j][i] = '\0';
-		j++;
-	}
-	map[j] = NULL;
-	return (map);
-} 
-
-void	check_sides(char *s)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = strlen(s) - 1;
-	while (s[i])
-	{
-		if (i == 0 || i == len)
-		{
-			if (s[i] != '1')
-				ft_exit("the map is not closed from sides");
-		}
-		i++;
-	}
-}
-void	str_is_one(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if(str[i] != '1' && str[i] != '\n')
-			ft_exit("the map is not closed from top or bottom");
-		i++;
-	}
-}
-void	check_map(char **map)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 1;
-	j = 0;
-	while (map[i])
-	{
-		if (i == 1 || map[i + 1] == NULL)
-			str_is_one(map[i]);				
-		else
-			check_sides(map[i]);
-		if (i > 1 || map[i + 1] == NULL)
-		{
-			if (strlen(map[i]) != strlen(map[i - 1]))
-				ft_exit("the map is not rectangular");		
-		}
-		i++;
-	}
 }
 
 int	check_file(char *file)
@@ -108,49 +39,156 @@ int	check_file(char *file)
 	return (1);
 }
 
-void	check_map_items(char **map)
+void swap_player(char **str, int dirc, int x, int y)
 {
-	int i;
+	char temp;
+
+	if (dirc == 4)
+	{
+		str[x][y] = '0';
+		str[x][y-1] = 'P';
+		
+	}
+	else if (dirc == 6)
+	{
+		str[x][y]  = '0';
+		str[x][y+1]  = 'P';
+	}
+	else if (dirc == 8)
+	{
+		str[x][y]  = '0';
+		str[x-1][y]  = 'P';
+	}
+	else if (dirc == 2)
+	{
+		str[x][y]  = '0';
+		str[x+1][y]  = 'P';
+	}
+	
+}
+int key_hook(int keycode, vars *mlx_vars)
+{
+	int	*tab;
+	int	k;
+	int	z;
+	int len;
+	
+	tab = get_player_position(mlx_vars->map);
+	len = strlen(mlx_vars->map[1]);
+
+	if (keycode == 124)
+	{
+		if (mlx_vars->map[tab[0]][tab[1] + 1] != 49)
+		{
+			swap_player(mlx_vars->map, 6, tab[0], tab[1]);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] + 1) * 50, (tab[0] - 1) * 50);
+		}
+	}
+	else if (keycode == 123)
+	{
+		if (mlx_vars->map[tab[0]][tab[1] - 1] != 49)
+		{
+			printf("%c\n", mlx_vars->map[tab[0]][tab[1] - 1]);
+			swap_player(mlx_vars->map, 4, tab[0], tab[1]);
+			printf("%d\n", keycode);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] - 1) * 50, (tab[0] - 1) * 50);
+		}
+	}
+	else if (keycode == 125)
+	{
+		if (mlx_vars->map[tab[0] + 1][tab[1]] != 49)
+		{
+			swap_player(mlx_vars->map, 8, tab[0], tab[1]);
+			printf("%d\n", keycode);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0]) * 50);
+		}
+	}
+	else if (keycode == 126)
+	{
+		printf("%d\n", keycode);
+		if (mlx_vars->map[tab[0] - 1][tab[1]] != 49)
+		{
+			swap_player(mlx_vars->map, 2, tab[0], tab[1]);
+			printf("%d\n", keycode);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 2) * 50);
+		}
+	}
+	return 0;
+}
+	
+int	*get_player_position(char **str)
+{
+	int *tab;
+
+	tab = malloc(8);
+	tab[0] = 1;
+	tab[1] = 0;
+	
+	while(str[tab[0]])
+	{
+		tab[1] = 0;
+		while(str[tab[0]][tab[1]])
+		{
+	
+			if(str[tab[0]][tab[1]]== 'P')
+			
+				return tab;
+			tab[1]++;
+		}
+		tab[0]++;
+	}
+	return tab;
+}
+int main(int ac, char *av[])
+{
+	void *mlx;
+	char **map1;
+	int i = 1;
 	int j;
-	t_list count;
-	count.player = 0;
-	count.one = 0;
-	count.zero = 0;
-	count.coin = 0;
-	count.exit = 0;
-	i = 1;
-	while(map[i])
+	int k;
+	k = 50;
+	int z = 50;
+	void	*mlx_img;
+	vars mlx_vars;
+
+	
+	if (check_file(av[1]))
+		mlx_vars.map = copy_map(open(av[1], O_RDONLY));
+	else
+		ft_exit("the file is not valid");
+	check_map(mlx_vars.map);
+	check_map_items(mlx_vars.map);
+	mlx_vars.mlx_ptr = mlx_init();
+	mlx_vars.mlx_win = mlx_new_window(mlx_vars.mlx_ptr, 34 * 50, 6 * 50, "so_long");
+	mlx_clear_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win);
+	while (mlx_vars.map[i])
 	{
 		j = 0;
-		while(map[i][j])
+		while (mlx_vars.map[i][j])
 		{
-			if(map[i][j] == '1')
-				count.one++;
-			else if(map[i][j] == 'P')
-				count.player++;
-			else if(map[i][j] == 'E')
-				count.exit++;
-			else if(map[i][j] == '0')
-				count.zero++;
-			else if(map[i][j] == 'C')
-				count.coin++;
-			else if(map[i][j] != '\n')
-				ft_exit("invalid item");
+			if (mlx_vars.map[i][j] == '0')
+				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,"./7et.xpm" ,&k , &z);
+			else if (mlx_vars.map[i][j] == '1')
+				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,"./rbi3a.xpm" ,&k , &z);
+			else if (mlx_vars.map[i][j] == 'P')
+				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,"./la3ib.xpm" ,&k , &z);
+			else if (mlx_vars.map[i][j] == 'E')
+				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,"./lkherja.xpm" ,&k , &z);
+			else if (mlx_vars.map[i][j] == 'C')
+				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,"./img.xpm" ,&k , &z);	
+			mlx_put_image_to_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win, mlx_img, (j) * 50, (i - 1) * 50);
 			j++;
 		}
 		i++;
+		
 	}
-	if(count.player != 1 || count.exit != 1 || count.coin < 1)
-		ft_exit("minimum");
-}
-
-int main(int ac, char *av[])
-{
-	char	**map;
-	if (check_file(av[1]))
-		map = copy_map(open(av[1], O_RDONLY));
-	else
-		ft_exit("the file is not valid");
-	check_map(map);
-	check_map_items(map);
+	mlx_key_hook(mlx_vars.mlx_win, key_hook, &mlx_vars);
+	mlx_loop(mlx_vars.mlx_ptr);
+	
+	
+	
 }

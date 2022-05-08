@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:19:53 by fstitou           #+#    #+#             */
-/*   Updated: 2021/12/10 01:46:40 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/08 16:49:07 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,3 @@ char	*get_next_line(int fd)
 	extract_line_modify_save(&save, &line);
 	return (line);
 }
-// int main()
-// {
-// 	int fd = open("test", O_RDONLY);
-// 	char *str;
-// 	int fd1 = open("test1", O_)
-// 	str = get_next_line(fd);
-// 	printf("%s\n", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s\n", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s\n", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s\n", str);
-// }
