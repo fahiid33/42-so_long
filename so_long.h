@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:58 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/08 20:22:17 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 16:08:42 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ void	check_map(char **map);
 int		check_file(char *file);
 void	check_map_items(char **map);
 void	str_is_one(char *str);
-int	*get_player_position(char **str);
+int		*get_player_position(char **str, char c);
 #endif

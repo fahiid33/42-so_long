@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:46 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/08 21:26:08 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 16:16:03 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void swap_player(char **str, int dirc, int x, int y)
 	{
 		str[x][y]  = '0';
 		str[x-1][y]  = 'P';
+		printf("%c-\n",str[x-1][y]);
 	}
 	else if (dirc == 2)
 	{
@@ -73,13 +74,15 @@ int key_hook(int keycode, vars *mlx_vars)
 	int	z;
 	int len;
 	
-	tab = get_player_position(mlx_vars->map);
+	tab = get_player_position(mlx_vars->map, 'P');
 	len = strlen(mlx_vars->map[1]);
 
 	if (keycode == 124)
 	{
 		if (mlx_vars->map[tab[0]][tab[1] + 1] != 49)
 		{
+			if (mlx_vars->map[tab[0]][tab[1] + 1] == 69)
+				ft_exit("");
 			swap_player(mlx_vars->map, 6, tab[0], tab[1]);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] + 1) * 50, (tab[0] - 1) * 50);
@@ -89,18 +92,22 @@ int key_hook(int keycode, vars *mlx_vars)
 	{
 		if (mlx_vars->map[tab[0]][tab[1] - 1] != 49)
 		{
-			printf("%c\n", mlx_vars->map[tab[0]][tab[1] - 1]);
+			if (mlx_vars->map[tab[0]][tab[1] - 1] == 69)
+				ft_exit("");
 			swap_player(mlx_vars->map, 4, tab[0], tab[1]);
 			printf("%d\n", keycode);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] - 1) * 50, (tab[0] - 1) * 50);
 		}
+
 	}
 	else if (keycode == 125)
 	{
-		if (mlx_vars->map[tab[0] + 1][tab[1]] != 49)
+		if (mlx_vars->map[tab[0] + 1][tab[1]] != 49 )
 		{
-			swap_player(mlx_vars->map, 8, tab[0], tab[1]);
+			if (mlx_vars->map[tab[0] + 1][tab[1]] == 69)
+				ft_exit("");
+			swap_player(mlx_vars->map, 2, tab[0], tab[1]);
 			printf("%d\n", keycode);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0]) * 50);
@@ -111,16 +118,24 @@ int key_hook(int keycode, vars *mlx_vars)
 		printf("%d\n", keycode);
 		if (mlx_vars->map[tab[0] - 1][tab[1]] != 49)
 		{
-			swap_player(mlx_vars->map, 2, tab[0], tab[1]);
-			printf("%d\n", keycode);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 2) * 50);
+			if (mlx_vars->map[tab[0] - 1][tab[1]] != 69 )
+			{
+				swap_player(mlx_vars->map, 8, tab[0], tab[1]);
+				printf("%d\n", keycode);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./7et.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 2) * 50);
+			}
+			else if (get_player_position(mlx_vars->map, 'C') == NULL && mlx_vars->map[tab[0] - 1][tab[1]] == 69)
+				ft_exit("");
+			
 		}
 	}
+	else if (keycode == 53)
+		ft_exit("");
 	return 0;
 }
 	
-int	*get_player_position(char **str)
+int	*get_player_position(char **str, char c)
 {
 	int *tab;
 
@@ -134,14 +149,13 @@ int	*get_player_position(char **str)
 		while(str[tab[0]][tab[1]])
 		{
 	
-			if(str[tab[0]][tab[1]]== 'P')
-			
+			if (str[tab[0]][tab[1]]== c)
 				return tab;
 			tab[1]++;
 		}
 		tab[0]++;
 	}
-	return tab;
+	return NULL;
 }
 int main(int ac, char *av[])
 {

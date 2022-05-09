@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:31:16 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/08 16:54:29 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 15:36:05 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	function(char **map, int i, int j)
 		j++;
 	}
 	// if(count.player != 1 || count.exit != 1 || count.coin < 1)
-	// 	ft_exit("minimum");
+	// ft_exit("minimum");
 }
 void	check_map_items(char **map)
 {
