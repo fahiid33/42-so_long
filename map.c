@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:31:16 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/09 15:36:05 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 19:03:05 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ void	check_map(char **map)
 		i++;
 	}
 }
-void	function(char **map, int i, int j)
+
+void	check_map_items(char **map)
 {
+	int i;
+	int j;
 	t_list count;
 
 	count.player = 0;
@@ -83,35 +86,28 @@ void	function(char **map, int i, int j)
 	count.coin = 0;
 	count.exit = 0;
 
-	while (map[i][j])
-	{
-		if (map[i][j] == '1')
-			count.one++;
-		else if(map[i][j] == 'P')
-			count.player++;
-		else if(map[i][j] == 'E')
-			count.exit++;
-		else if(map[i][j] == '0')
-			count.zero++;
-		else if(map[i][j] == 'C')
-			count.coin++;
-		else if(map[i][j] != '\n')
-			ft_exit("invalid item");
-		j++;
-	}
-	// if(count.player != 1 || count.exit != 1 || count.coin < 1)
-	// ft_exit("minimum");
-}
-void	check_map_items(char **map)
-{
-	int i;
-	int j;
-
 	i = 1;
 	while(map[i])
 	{
 		j = 0;
-		function(map, i, j);
+		while (map[i][j])
+		{
+			if (map[i][j] == '1')
+				count.one++;
+			else if(map[i][j] == 'P')
+				count.player++;
+			else if(map[i][j] == 'E')
+				count.exit++;
+			else if(map[i][j] == '0')
+				count.zero++;
+			else if(map[i][j] == 'C')
+				count.coin++;
+			else if(map[i][j] != '\n')
+				ft_exit("invalid item");
+			j++;
+		}
 		i++;
 	}
+	if(count.player != 1 || count.exit != 1 || count.coin < 1)
+	ft_exit("minimum");
 }
