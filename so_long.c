@@ -6,18 +6,12 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:46 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/09 18:25:07 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 20:05:07 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <mlx.h>
-
-typedef struct {
-	void* mlx_ptr;
-	void* mlx_win;
-	char **map;
-}vars;
 
 void	ft_exit(char *str)
 {
@@ -46,24 +40,24 @@ void swap_player(char **str, int dirc, int x, int y)
 	if (dirc == 4)
 	{
 		str[x][y] = '0';
-		str[x][y-1] = 'P';
+		str[x][y - 1] = 'P';
 		
 	}
 	else if (dirc == 6)
 	{
 		str[x][y]  = '0';
-		str[x][y+1]  = 'P';
+		str[x][y + 1]  = 'P';
 	}
 	else if (dirc == 8)
 	{
 		str[x][y]  = '0';
-		str[x-1][y]  = 'P';
+		str[x - 1][y]  = 'P';
 		printf("%c-\n",str[x-1][y]);
 	}
 	else if (dirc == 2)
 	{
 		str[x][y]  = '0';
-		str[x+1][y]  = 'P';
+		str[x + 1][y]  = 'P';
 	}
 	
 }
@@ -81,47 +75,51 @@ int key_hook(int keycode, vars *mlx_vars)
 	{
 		if (mlx_vars->map[tab[0]][tab[1] + 1] != 49)
 		{
-			if (mlx_vars->map[tab[0]][tab[1] + 1] == 69)
+			if (mlx_vars->map[tab[0]][tab[1] + 1] != 69)
+			{
+				swap_player(mlx_vars->map, 6, tab[0], tab[1]);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] + 1) * 50, (tab[0] - 1) * 50);
+			}
+			else if (get_player_position(mlx_vars->map, 'C') == NULL && mlx_vars->map[tab[0]][tab[1] + 1] == 69)
 				ft_exit("");
-			swap_player(mlx_vars->map, 6, tab[0], tab[1]);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] + 1) * 50, (tab[0] - 1) * 50);
 		}
 	}
 	else if (keycode == 123)
 	{
 		if (mlx_vars->map[tab[0]][tab[1] - 1] != 49)
 		{
-			if (mlx_vars->map[tab[0]][tab[1] - 1] == 69)
-				ft_exit("");
-			swap_player(mlx_vars->map, 4, tab[0], tab[1]);
-			printf("%d\n", keycode);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] - 1) * 50, (tab[0] - 1) * 50);
+			if (mlx_vars->map[tab[0]][tab[1] - 1] != 69)
+			{
+				swap_player(mlx_vars->map, 4, tab[0], tab[1]);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1] - 1) * 50, (tab[0] - 1) * 50);
+			}
+			else if (get_player_position(mlx_vars->map, 'C') == NULL && mlx_vars->map[tab[0]][tab[1] - 1] == 69)
+					ft_exit("");
 		}
-
 	}
 	else if (keycode == 125)
 	{
 		if (mlx_vars->map[tab[0] + 1][tab[1]] != 49 )
 		{
-			if (mlx_vars->map[tab[0] + 1][tab[1]] == 69)
-				ft_exit("");
-			swap_player(mlx_vars->map, 2, tab[0], tab[1]);
-			printf("%d\n", keycode);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
-			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0]) * 50);
+			if (mlx_vars->map[tab[0] + 1][tab[1]] != 69 )
+			{
+				swap_player(mlx_vars->map, 2, tab[0], tab[1]);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
+				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0]) * 50);
+			}
+			else if (get_player_position(mlx_vars->map, 'C') == NULL && mlx_vars->map[tab[0] + 1][tab[1]] == 69)
+					ft_exit("");
 		}
 	}
 	else if (keycode == 126)
 	{
-		printf("%d\n", keycode);
 		if (mlx_vars->map[tab[0] - 1][tab[1]] != 49)
 		{
 			if (mlx_vars->map[tab[0] - 1][tab[1]] != 69 )
 			{
 				swap_player(mlx_vars->map, 8, tab[0], tab[1]);
-				printf("%d\n", keycode);
 				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./rbi3a.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 1) * 50);
 				mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win, mlx_xpm_file_to_image(mlx_vars->mlx_ptr,"./la3ib.xpm" ,&k , &z), (tab[1]) * 50, (tab[0] - 2) * 50);
 			}
@@ -177,8 +175,8 @@ int main(int ac, char *av[])
 	check_map(mlx_vars.map);
 	check_map_items(mlx_vars.map);
 	mlx_vars.mlx_ptr = mlx_init();
-	mlx_vars.mlx_win = mlx_new_window(mlx_vars.mlx_ptr, 34 * 50, 6 * 50, "so_long");
-	mlx_clear_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win);
+	mlx_vars.mlx_win = mlx_new_window(mlx_vars.mlx_ptr, 34 * 50, 8 * 50, "so_long");
+	// mlx_clear_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win);
 	while (mlx_vars.map[i])
 	{
 		j = 0;

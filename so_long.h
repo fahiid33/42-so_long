@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:58 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/09 16:08:42 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/09 20:05:32 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct s_list
 	int	zero;
 	int	exit;
 }	t_list;
+typedef struct 
+{
+	void	*mlx_ptr;
+	void	*mlx_win;
+	char	**map;
+}	vars;
 
 char	**copy_map(int fd);
 void	ft_exit(char *str);
