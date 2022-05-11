@@ -6,7 +6,7 @@
 #    By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/08 15:23:06 by fstitou           #+#    #+#              #
-#    Updated: 2022/05/11 18:00:17 by fstitou          ###   ########.fr        #
+#    Updated: 2022/05/11 23:42:12 by fstitou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc $(SRC) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@gcc $(SRC) -fsanitize=address -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "ANKARA MISSII ANKARA MISSII ANKARA MISSII gol gol gol gol"
 
 $(NAME_BONUS) : 

@@ -6,13 +6,13 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:29:02 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/11 21:13:56 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:56:13 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	move_right(vars *mlx_vars, int *tab)
+void	move_right(t_vars *mlx_vars, int *tab)
 {
 	void	*mlx_img;
 	int		k;
@@ -38,7 +38,7 @@ void	move_right(vars *mlx_vars, int *tab)
 	}
 }
 
-void	move_left(vars *mlx_vars, int *tab)
+void	move_left(t_vars *mlx_vars, int *tab)
 {
 	void	*mlx_img;
 	int		k;
@@ -64,7 +64,7 @@ void	move_left(vars *mlx_vars, int *tab)
 	}
 }
 
-void	move_down(vars *mlx_vars, int *tab)
+void	move_down(t_vars *mlx_vars, int *tab)
 {
 	void	*mlx_img;
 	int		k;
@@ -90,7 +90,7 @@ void	move_down(vars *mlx_vars, int *tab)
 	}
 }
 
-void	move_up(vars *mlx_vars, int *tab)
+void	move_up(t_vars *mlx_vars, int *tab)
 {
 	void	*mlx_img;
 	int		k;
@@ -116,7 +116,7 @@ void	move_up(vars *mlx_vars, int *tab)
 	}
 }
 
-int	key_hook(int keycode, vars *mlx_vars)
+int	key_hook(int keycode, t_vars *mlx_vars)
 {
 	int	*tab;
 	int	k;
