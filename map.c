@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:31:16 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/09 19:03:05 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/11 20:57:53 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**copy_map(int fd)
 	str = get_next_line(fd);
 	i = 0;
 	j = 1;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == '\n')
 		{
@@ -50,7 +50,7 @@ char	**copy_map(int fd)
 	}
 	last_line(str, i, map, j);
 	return (map);
-} 
+}
 
 void	check_map(char **map)
 {
@@ -62,52 +62,56 @@ void	check_map(char **map)
 	while (map[i])
 	{
 		if (i == 1 || map[i + 1] == NULL)
-			str_is_one(map[i]);				
+			str_is_one(map[i]);
 		else
 			check_sides(map[i]);
 		if (i > 1 || map[i + 1] == NULL)
 		{
 			if (strlen(map[i]) != strlen(map[i - 1]))
-				ft_exit("the map is not rectangular");		
+				ft_exit("the map is not rectangular");
 		}
 		i++;
 	}
 }
 
-void	check_map_items(char **map)
+void	check_items(char **map, t_list count, int i, int j)
 {
-	int i;
-	int j;
-	t_list count;
-
-	count.player = 0;
-	count.one = 0;
-	count.zero = 0;
-	count.coin = 0;
-	count.exit = 0;
-
-	i = 1;
-	while(map[i])
+	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
 			if (map[i][j] == '1')
 				count.one++;
-			else if(map[i][j] == 'P')
+			else if (map[i][j] == 'P')
 				count.player++;
-			else if(map[i][j] == 'E')
+			else if (map[i][j] == 'E')
 				count.exit++;
-			else if(map[i][j] == '0')
+			else if (map[i][j] == '0')
 				count.zero++;
-			else if(map[i][j] == 'C')
+			else if (map[i][j] == 'C')
 				count.coin++;
-			else if(map[i][j] != '\n')
+			else if (map[i][j] != '\n')
 				ft_exit("invalid item");
 			j++;
 		}
 		i++;
 	}
-	if(count.player != 1 || count.exit != 1 || count.coin < 1)
-	ft_exit("minimum");
+	if (count.player != 1 || count.exit != 1 || count.coin < 1)
+		ft_exit("minimum");
+}
+
+void	check_map_items(char **map)
+{
+	t_list	count;
+	int		i;
+	int		j;
+
+	i = 1;
+	count.player = 0;
+	count.one = 0;
+	count.zero = 0;
+	count.coin = 0;
+	count.exit = 0;
+	check_items(map, count, i, j);
 }

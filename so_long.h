@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:58 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/09 20:05:32 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/11 17:33:09 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_list
 	int	zero;
 	int	exit;
 }	t_list;
+
 typedef struct 
 {
 	void	*mlx_ptr;
@@ -44,4 +45,6 @@ int		check_file(char *file);
 void	check_map_items(char **map);
 void	str_is_one(char *str);
 int		*get_player_position(char **str, char c);
+int		key_hook(int keycode, vars *mlx_vars);
+void	swap_player(char **map, int dirc, int x, int y);
 #endif
