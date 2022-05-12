@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:58 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/11 23:56:53 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/12 02:18:20 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_vars
 	void	*mlx_ptr;
 	void	*mlx_win;
 	char	**map;
+	int		x;
 }	t_vars;
 
 char	**copy_map(int fd);

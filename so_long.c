@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:46 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/11 23:58:04 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/12 02:21:21 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ void	put_background(t_vars mlx_vars)
 	}
 }
 
+void	put_items_helper(t_vars mlx_vars, void	*mlx_img, int z, int k)
+{
+	if (mlx_vars.map[i][j] == '0')
+			mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
+					"./rbi3a.xpm", &k, &z);
+	else if (mlx_vars.map[i][j] == '1')
+		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
+				"./7et.xpm", &k, &z);
+	else if (mlx_vars.map[i][j] == 'P')
+		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
+				"./la3ib.xpm", &k, &z);
+	else if (mlx_vars.map[i][j] == 'E')
+		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
+				"./lkherja.xpm", &k, &z);
+	else if (mlx_vars.map[i][j] == 'C')
+		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
+				"./img.xpm", &k, &z);
+}
+
 void	put_items(t_vars mlx_vars, void *mlx_img, int z, int k)
 {
 	int		i;
@@ -56,21 +75,7 @@ void	put_items(t_vars mlx_vars, void *mlx_img, int z, int k)
 		j = 0;
 		while (mlx_vars.map[i][j])
 		{
-			if (mlx_vars.map[i][j] == '0')
-				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-						"./rbi3a.xpm", &k, &z);
-			else if (mlx_vars.map[i][j] == '1')
-				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-						"./7et.xpm", &k, &z);
-			else if (mlx_vars.map[i][j] == 'P')
-				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-						"./la3ib.xpm", &k, &z);
-			else if (mlx_vars.map[i][j] == 'E')
-				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-						"./lkherja.xpm", &k, &z);
-			else if (mlx_vars.map[i][j] == 'C')
-				mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-						"./img.xpm", &k, &z);
+			put_items_helper(mlx_vars, mlx_img, z, k);
 			mlx_put_image_to_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win,
 				mlx_img, (j) * 50, (i - 1) * 50);
 			j++;
@@ -102,4 +107,5 @@ int	main(int ac, char *av[])
 	put_items(mlx_vars, mlx_img, z, k);
 	mlx_key_hook(mlx_vars.mlx_win, key_hook, &mlx_vars);
 	mlx_loop(mlx_vars.mlx_ptr);
+	printf("%d\n",mlx_vars->x);
 }

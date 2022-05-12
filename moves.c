@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:29:02 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/11 23:56:13 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/12 02:20:14 by fahd             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	move_right(t_vars *mlx_vars, int *tab)
 					&k, &z);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win,
 				mlx_img, (tab[1] + 1) * 50, (tab[0] - 1) * 50);
+			mlx_vars->x++;
 		}
 		else if (get_player_position(mlx_vars->map, 'C') == NULL
 			&& mlx_vars->map[tab[0]][tab[1] + 1] == 69)
@@ -57,6 +58,7 @@ void	move_left(t_vars *mlx_vars, int *tab)
 					&k, &z);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win,
 				mlx_img, (tab[1] - 1) * 50, (tab[0] - 1) * 50);
+			mlx_vars->x++;
 		}
 		else if (get_player_position(mlx_vars->map, 'C') == NULL
 			&& mlx_vars->map[tab[0]][tab[1] - 1] == 69)
@@ -83,6 +85,7 @@ void	move_down(t_vars *mlx_vars, int *tab)
 					&k, &z);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win,
 				mlx_img, (tab[1]) * 50, (tab[0]) * 50);
+			mlx_vars->x++;
 		}
 		else if (get_player_position(mlx_vars->map, 'C') == NULL
 			&& mlx_vars->map[tab[0] + 1][tab[1]] == 69)
@@ -109,6 +112,7 @@ void	move_up(t_vars *mlx_vars, int *tab)
 					&k, &z);
 			mlx_put_image_to_window(mlx_vars->mlx_ptr, mlx_vars->mlx_win,
 				mlx_img, (tab[1]) * 50, (tab[0] - 2) * 50);
+			mlx_vars->x++;
 		}
 		else if (get_player_position(mlx_vars->map, 'C') == NULL
 			&& mlx_vars->map[tab[0] - 1][tab[1]] == 69)
