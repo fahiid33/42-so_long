@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:31:16 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/11 20:57:53 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/12 17:20:55 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	last_line(char *str, int i, char **map, int j)
 	map[j] = NULL;
 }
 
-char	**copy_map(int fd)
+char	**copy_map(int fd, unsigned int *width)
 {
 	char	**map;
 	char	*str;
@@ -48,15 +48,18 @@ char	**copy_map(int fd)
 		}
 		i++;
 	}
+	*width = i;
 	last_line(str, i, map, j);
 	return (map);
 }
 
-void	check_map(char **map)
+void	check_map(t_vars *mapp)
 {
-	int	i;
-	int	j;
+	char	**map;
+	int		i;
+	int		j;
 
+	map = mapp->map;
 	i = 1;
 	j = 0;
 	while (map[i])
@@ -72,6 +75,7 @@ void	check_map(char **map)
 		}
 		i++;
 	}
+	mapp->h = i - 1;
 }
 
 void	check_items(char **map, t_list count, int i, int j)

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fahd <fahd@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:18:46 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/12 02:21:21 by fahd             ###   ########.fr       */
+/*   Updated: 2022/05/12 17:47:43 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <mlx.h>
 
 void	ft_exit(char *str)
 {
@@ -45,11 +44,14 @@ void	put_background(t_vars mlx_vars)
 	}
 }
 
-void	put_items_helper(t_vars mlx_vars, void	*mlx_img, int z, int k)
+void	*put_items_helper(t_vars mlx_vars, void	*mlx_img, int i, int j)
 {
+	int	k;
+	int	z;
+
 	if (mlx_vars.map[i][j] == '0')
 			mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
-					"./rbi3a.xpm", &k, &z);
+				"./rbi3a.xpm", &k, &z);
 	else if (mlx_vars.map[i][j] == '1')
 		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
 				"./7et.xpm", &k, &z);
@@ -62,6 +64,7 @@ void	put_items_helper(t_vars mlx_vars, void	*mlx_img, int z, int k)
 	else if (mlx_vars.map[i][j] == 'C')
 		mlx_img = mlx_xpm_file_to_image(mlx_vars.mlx_ptr,
 				"./img.xpm", &k, &z);
+	return (mlx_img);
 }
 
 void	put_items(t_vars mlx_vars, void *mlx_img, int z, int k)
@@ -75,7 +78,7 @@ void	put_items(t_vars mlx_vars, void *mlx_img, int z, int k)
 		j = 0;
 		while (mlx_vars.map[i][j])
 		{
-			put_items_helper(mlx_vars, mlx_img, z, k);
+			mlx_img = put_items_helper(mlx_vars, mlx_img, i, j);
 			mlx_put_image_to_window(mlx_vars.mlx_ptr, mlx_vars.mlx_win,
 				mlx_img, (j) * 50, (i - 1) * 50);
 			j++;
@@ -92,20 +95,19 @@ int	main(int ac, char *av[])
 	int			z;
 	int			k;
 
-	z = 50;
-	k = 50;
+	mlx_vars.h = 0;
+	mlx_vars.w = 0;
 	if (check_file(av[1]))
-		mlx_vars.map = copy_map(open(av[1], O_RDONLY));
+		mlx_vars.map = copy_map(open(av[1], O_RDONLY), &mlx_vars.w);
 	else
 		ft_exit("the file is not valid");
-	check_map(mlx_vars.map);
+	check_map(&mlx_vars);
 	check_map_items(mlx_vars.map);
 	mlx_vars.mlx_ptr = mlx_init();
-	mlx_vars.mlx_win = mlx_new_window(mlx_vars.mlx_ptr, 34 * 50, 8 * 50,
-			"so_long");
+	mlx_vars.mlx_win = mlx_new_window(mlx_vars.mlx_ptr,
+			mlx_vars.w * 50, mlx_vars.h * 50, "so_long");
 	put_background(mlx_vars);
 	put_items(mlx_vars, mlx_img, z, k);
 	mlx_key_hook(mlx_vars.mlx_win, key_hook, &mlx_vars);
 	mlx_loop(mlx_vars.mlx_ptr);
-	printf("%d\n",mlx_vars->x);
 }
