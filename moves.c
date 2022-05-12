@@ -6,7 +6,7 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:29:02 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/12 17:50:27 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/12 23:01:23 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,13 @@ int	key_hook(int keycode, t_vars *mlx_vars)
 	int	z;
 
 	tab = get_player_position(mlx_vars->map, 'P');
-	if (keycode == 124)
+	if (keycode == 124 || keycode == 2)
 		move_right(mlx_vars, tab);
-	else if (keycode == 123)
+	else if (keycode == 123 || keycode == 0)
 		move_left(mlx_vars, tab);
-	else if (keycode == 125)
+	else if (keycode == 125 || keycode == 1)
 		move_down(mlx_vars, tab);
-	else if (keycode == 126)
+	else if (keycode == 126 || keycode == 13)
 		move_up(mlx_vars, tab);
 	else if (keycode == 53)
 		ft_exit("");
