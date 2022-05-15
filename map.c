@@ -6,13 +6,13 @@
 /*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 15:31:16 by fstitou           #+#    #+#             */
-/*   Updated: 2022/05/12 17:20:55 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/05/15 16:16:22 by fstitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	last_line(char *str, int i, char **map, int j)
+char	**last_line(char *str, int i, char **map, int j)
 {
 	if (str[i] == '\0')
 	{
@@ -21,7 +21,9 @@ void	last_line(char *str, int i, char **map, int j)
 		map[j][i] = '\0';
 		j++;
 	}
+	free(str);
 	map[j] = NULL;
+	return (map);
 }
 
 char	**copy_map(int fd, unsigned int *width)
@@ -44,13 +46,13 @@ char	**copy_map(int fd, unsigned int *width)
 			map[j][i] = '\0';
 			j++;
 			i = 0;
+			free(str);
 			str = get_next_line(fd);
 		}
 		i++;
 	}
 	*width = i;
-	last_line(str, i, map, j);
-	return (map);
+	return (last_line(str, i, map, j));
 }
 
 void	check_map(t_vars *mapp)
